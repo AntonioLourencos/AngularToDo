@@ -7,7 +7,7 @@ import { ToDo } from './to-do.model';
   styleUrls: [],
 })
 export class AppComponent {
-  toDo: ToDo[] = [];
+  toDo: ToDo[] = JSON.parse(localStorage.getItem('@tasks') || '[]');
 
   onKeyDown(event: KeyboardEvent) {
     if (
@@ -25,13 +25,17 @@ export class AppComponent {
     this.toDo.push(newTodo);
 
     (event.target as HTMLInputElement).value = '';
+
+    localStorage.setItem('@tasks', JSON.stringify(this.toDo));
   }
 
   handleStatus(_index: number) {
     this.toDo[_index].checked = !this.toDo[_index].checked;
+    localStorage.setItem('@tasks', JSON.stringify(this.toDo));
   }
 
   handleDelete(_index: number) {
     this.toDo.splice(_index, 1);
+    localStorage.setItem('@tasks', JSON.stringify(this.toDo));
   }
 }
